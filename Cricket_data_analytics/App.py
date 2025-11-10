@@ -57,7 +57,7 @@ if player_row.empty:
 # ---------------------- PREDICTION ----------------------
 if st.button("🎯 Predict Performance"):
     updated_features = feature_selection(features, target)
-    X_input = player_row[features].values
+    X_input = player_row[updated_features].values
     predictions = {name: model.predict(X_input)[0] for name, model in models.items()}
     results_df = pd.DataFrame(list(predictions.items()), columns=["Model", "Predicted BPI"])
 
@@ -104,3 +104,4 @@ if st.button("🎯 Predict Performance"):
 
 st.markdown("---")
 st.caption("👨‍💻 Developed by **Akshay Atanure** | [GitHub](https://github.com/akshay635) | [LinkedIn](https://linkedin.com/in/akshayatanure)")
+
