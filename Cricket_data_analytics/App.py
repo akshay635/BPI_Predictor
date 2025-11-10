@@ -3,44 +3,37 @@ import pandas as pd
 import numpy as np
 import joblib
 import plotly.express as px
-from src import feature_selection
+from src.features_selector import select_features
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# ---------------------- PAGE CONFIG ----------------------
-st.set_page_config(page_title="🏏 Dynamic BPI Predictor", page_icon="🏏", layout="centered")
 
-st.title("🏏 Dynamic IPL Batsman Performance Predictor")
-st.markdown("""
-Predict a **Batsman Performance Index (BPI)** for any player and season  
-using multiple ML models (Linear, Random Forest, XGBoost).  
-The app fetches player stats automatically and visualizes the results clearly.
----
-""")
+st.set_page_config(page_title="🏏 Dynamic BPI Predictor", page_icon="🏏", layout="wide")
 
-# ---------------------- LOAD MODEL & DATA ----------------------
+st.title("🏏 Dynamic IPL Batsman Performance Predictor (with Model & Feature Selection)")
+
+# ---------------- Load Models ----------------
 @st.cache_resource
 def load_models():
     return {
-        "Decision Tree": joblib.load("dt_model.joblib"),
-        "Random Forest": joblib.load("rf_model.joblib"),
-        "Extra Trees": joblib.load("et_model.joblib")
-        "XGBoost": joblib.load("xgb_model.joblib")
+        "Decision Tree": joblib.load("C:/Users/aksha/Cricket_data_analytics/models/dt_model.joblib"),
+        "Random Forest": joblib.load("C:/Users/aksha/Cricket_data_analytics/models/rf_model.joblib"),
+        "XGBoost": joblib.load("C:/Users/aksha/Cricket_data_analytics/models/xgb_model.joblib")
     }
 
+models = load_models()
+
+# ---------------- Load Dataset ----------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("seasonal_stats.csv")
+    return pd.read_csv("C:/Users/aksha/Cricket_data_analytics/data/seasonal_stats.csv")
 
-models = load_models()
 df = load_data()
 
-# loading the standardscaler
-scaler = joblib.load('scaler.joblib')
+scaler = joblib.load('C:/Users/aksha/Cricket_data_analytics/models/scaler.joblib')
 
-# Common features for all models
-target = df["BPI"]
-features = df.drop(columns=['season', 'batting_team', 'batter', 'BPI']).columns.tolist()
-
-# ---------------------- INPUT SECTION ----------------------
+# ---------------- Inputs ----------------
 col1, col2 = st.columns(2)
 with col1:
     player = st.selectbox("🎯 Select Player", sorted(df['batter'].unique()))
@@ -48,60 +41,62 @@ with col2:
     seasons = df[df['batter'] == player]['season'].unique()
     season = st.selectbox("📅 Select Season", sorted(seasons, reverse=True))
 
+# ---------------- Model Selection ----------------
+selected_model_name = st.selectbox(
+    "🤖 Select Model for Prediction",
+    ["Decision Tree", "Random Forest", "XGBoost"]
+)
+
+model = models[selected_model_name]
 player_row = df[(df['batter'] == player) & (df['season'] == season)]
 
 if player_row.empty:
     st.warning("No data found for this player and season.")
     st.stop()
 
-# ---------------------- PREDICTION ----------------------
-if st.button("🎯 Predict Performance"):
-    updated_features = feature_selection(features, target)
-    X_input = player_row[updated_features].values
-    predictions = {name: model.predict(X_input)[0] for name, model in models.items()}
-    results_df = pd.DataFrame(list(predictions.items()), columns=["Model", "Predicted BPI"])
+# ---------------- Feature Selection ----------------
+st.markdown("### 🔍 Feature Selection")
+X = df.drop(columns=['BPI', 'batter', 'season', 'batting_team'], errors="ignore")
+y = df['BPI']
 
-    st.success(f"✅ Predictions for {player} ({season}) generated successfully!")
-    st.dataframe(results_df, use_container_width=True)
+selected_features, importance_df = select_features(X, y, selected_model_name, top_n=11)
 
-    # ---------------------- COMPARISON VISUAL ----------------------
-    st.markdown("### 📊 Model Predictions Comparison")
-    fig = px.bar(results_df, x="Model", y="Predicted BPI", text_auto=True, title="Model-wise BPI Predictions")
-    st.plotly_chart(fig, use_container_width=True)
+st.write(f"Top 10 features selected for {selected_model_name}:")
+st.dataframe(importance_df.head(10), use_container_width=True)
 
-    # ---------------------- ACTUAL VS PREDICTED ----------------------
-    if 'BPI' in player_row.columns:
-        actual_bpi = player_row['BPI'].values[0]
-        st.info(f"🎯 Actual BPI: **{actual_bpi:.2f}**")
-
-        comp_df = results_df.copy()
-        comp_df.loc[len(comp_df)] = ["Actual BPI", actual_bpi]
-        fig2 = px.bar(comp_df, x="Model", y="Predicted BPI", text_auto=True, title="Predicted vs Actual BPI")
-        st.plotly_chart(fig2, use_container_width=True)
-
-    # ---------------------- METRICS SUMMARY ----------------------
-    st.markdown("### ⚙️ Model Performance Metrics (Validation Results)")
-    metrics_data = {
-        "Linear Regression": {"R²": 0.90, "RMSE": 5.3, "MAE": 3.7},
-        "Random Forest": {"R²": 0.97, "RMSE": 2.8, "MAE": 1.9},
-        "XGBoost": {"R²": 0.96, "RMSE": 3.0, "MAE": 2.1}
-    }
-    metrics_df = pd.DataFrame(metrics_data).T
-    st.dataframe(metrics_df.style.highlight_max(axis=0, color="lightgreen"), use_container_width=True)
-
-    # ---------------------- TREND CHART ----------------------
-    st.markdown("### 📈 Player's BPI Trend Across Seasons")
-    player_data = df[df['batter'] == player].copy()
-    player_data['Predicted (RF)'] = models['Random Forest'].predict(player_data[features])
-
-    if 'BPI' in player_data.columns:
-        fig3 = px.line(player_data, x='Season', y=['BPI', 'Predicted (RF)'], markers=True,
-                       title=f"{player} - Actual vs Predicted BPI Trend (Random Forest)")
-    else:
-        fig3 = px.line(player_data, x='Season', y='Predicted (RF)', markers=True,
-                       title=f"{player} - Predicted BPI Trend (Random Forest)")
-    st.plotly_chart(fig3, use_container_width=True)
-
+# ---------------- Prediction ----------------
 st.markdown("---")
-st.caption("👨‍💻 Developed by **Akshay Atanure** | [GitHub](https://github.com/akshay635) | [LinkedIn](https://linkedin.com/in/akshayatanure)")
+st.subheader(f"🎯 Predict BPI for {player} ({season}) using {selected_model_name}")
 
+X_input_scaled = scaler.transform(player_row[selected_features].values)
+prediction = model.predict(X_input_scaled)[0]
+
+st.success(f"Predicted BPI: **{prediction:.2f}**")
+st.success(f"Actual BPI: **{player_row['BPI'].values[0]:.2f}**")
+st.success(f"Difference: **{abs(prediction - player_row['BPI'].values[0]):.2f}**")
+
+if 'BPI' in player_row.columns:
+
+    comparison_df = pd.DataFrame({
+        "Player": [player],
+        "Season": [season],
+        "Actual BPI": [player_row['BPI'].values[0]],
+        "Predicted BPI": [prediction],
+        "Difference": [round(prediction - player_row['BPI'].values[0], 2)],
+        "mean_absolute_error" : mean_absolute_error([prediction], [player_row['BPI'].values[0]]),
+        "mean_squared_error" : mean_squared_error([prediction], [player_row['BPI'].values[0]]), 
+        "rmse" : root_mean_squared_error([prediction], [player_row['BPI'].values[0]])
+    })
+
+    st.dataframe(comparison_df.style.highlight_max(subset=["Predicted BPI"], color='lightgreen'), use_container_width=True)
+
+
+# ---------------- Visualization ----------------
+fig = px.bar(
+    importance_df.head(10),
+    x="Feature",
+    y="Score",
+    title=f"Feature Importance / F-score ({selected_model_name})",
+    text_auto=True
+)
+st.plotly_chart(fig, use_container_width=True)
