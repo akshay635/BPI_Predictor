@@ -1,12 +1,12 @@
-# 🏏 Dynamic IPL Batsman Performance Predictor
+#  Dynamic IPL Batsman Performance Predictor
 
 A machine learning app that predicts a batsman's **Performance Index (BPI)** using IPL statistics.
 
-## 🚀 Project Overview
+##  Project Overview
 This project uses IPL player performance data to build predictive models that estimate a batsman's effectiveness (BPI).  
 Built with **Python, Scikit-learn, and Streamlit**.
 
-## 📊 Key Features
+##  Key Features
 - Dynamic player & season selection
 - Auto-fetches player stats from dataset
 - Predicts BPI using trained ML models
@@ -14,13 +14,13 @@ Built with **Python, Scikit-learn, and Streamlit**.
 - Displays model metrics (R², RMSE, MAE)
 - Interactive Streamlit dashboard
 
-## 🧠 Models Used
+##  Models Used
 - Linear Regression  
 - Random Forest Regressor  
 - XGBoost Regressor  
 
-## 🧩 Technologies
-- Python 🐍  
+##  Technologies
+- Python   
 - Pandas, NumPy, Scikit-learn  
 - Plotly, Streamlit  
 - GitHub for version control  
