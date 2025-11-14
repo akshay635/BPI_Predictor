@@ -11,6 +11,7 @@ import plotly.express as px
 #import plotly.objects as go
 from src.load_data_model import load_data, load_models, train_test_split
 from src.features_importance import select_features
+import statsmodels.api as sm 
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -56,5 +57,6 @@ fig = px.scatter(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
