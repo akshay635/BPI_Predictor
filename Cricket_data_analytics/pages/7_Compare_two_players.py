@@ -10,7 +10,7 @@ Created on Thu Nov 13 12:04:31 2025
 import plotly.graph_objects as go
 import streamlit as st
 from src.load_data_model import load_data
-
+import statsmodels.api as sm 
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -38,4 +38,5 @@ fig = go.Figure(data=[
 ])
 
 fig.update_layout(barmode='group', title="Player Comparison")
+
 st.plotly_chart(fig, use_container_width=True)
