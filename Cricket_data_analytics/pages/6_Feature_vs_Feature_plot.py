@@ -8,6 +8,7 @@ Created on Fri Nov 14 00:43:07 2025
 import streamlit as st
 from src.load_data_model import load_data
 import plotly.express as px
+import statsmodels.api as sm 
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -25,5 +26,6 @@ fig = px.scatter(df, x=features1, y=features2, trendline="ols",
                  title=f"{features1} vs {features2} using scatter plot")
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
