@@ -9,6 +9,7 @@ import streamlit as st
 import seaborn as sns
 from src.load_data_model import load_data
 import plotly.express as px
+import statsmodels.api as sm 
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -58,4 +59,5 @@ with tab4:
     sns.regplot(x=selected_feature, y=target, data=df)
     
     # Display in Streamlit
+
     st.pyplot(fig.fig, use_container_width=True)
