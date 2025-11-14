@@ -11,18 +11,18 @@ import streamlit as st
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('akshay635/bpi_predictor/main/Cricket_data_analytics/data/seasonal_stats.csv')
+    df = pd.read_csv('Cricket_data_analytics/data/seasonal_stats.csv')
     return df
 
 @st.cache_resource
 def load_models():
     models = {
-        "Decision Tree": joblib.load("akshay635/bpi_predictor/main/Cricket_data_analytics/models/dt_model.joblib"),
-        "Random Forest": joblib.load("akshay635/bpi_predictor/main/Cricket_data_analytics/models/rf_model.joblib"),
-        "XGBoost": joblib.load("akshay635/bpi_predictor/main/Cricket_data_analytics/models/xgb_model.joblib")
+        "Decision Tree": joblib.load("Cricket_data_analytics/models/dt_model.joblib"),
+        "Random Forest": joblib.load("Cricket_data_analytics/models/rf_model.joblib"),
+        "XGBoost": joblib.load("Cricket_data_analytics/models/xgb_model.joblib")
     }
 
-    scaler = joblib.load("akshay635/bpi_predictor/main/Cricket_data_analytics/models/scaler.joblib")
+    scaler = joblib.load("Cricket_data_analytics/models/scaler.joblib")
     return models, scaler
 
 @st.cache_data
@@ -31,6 +31,7 @@ def train_test_split(df):
     y = df['BPI']
     
     return X, y
+
 
 
 
