@@ -15,7 +15,7 @@ Built with **Python, Scikit-learn, and Streamlit**.
 - Interactive Streamlit dashboard
 
 ##  Models Used
-- Linear Regression  
+- Decsision Tree 
 - Random Forest Regressor  
 - XGBoost Regressor  
 
