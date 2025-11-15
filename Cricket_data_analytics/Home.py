@@ -21,5 +21,9 @@ Welcome to the **Dynamic BPI Predictor App** — a machine learning dashboard th
 Use the sidebar to navigate between sections 👇
 """)
 
+st.header("""**Note*:- Only those matches are considered where player has been batted. 
+So there should be a difference in that.**""")
+
 st.image("https://wallpapercave.com/wp/wp2506454.jpg", width=500)
+
 
