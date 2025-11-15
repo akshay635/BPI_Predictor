@@ -17,6 +17,30 @@ st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html
 
 st.title("Clustering players based on the performance in each season")
 
+st.markdown("""
+## 🧩 Player Performance Clustering — Story Behind the Data
+
+Every IPL batsman has a unique performance signature.  
+But raw numbers alone don't explain *how good* a player truly is.
+
+Using K-Means clustering, we group players into **7 performance tiers**:
+- ⭐ **Extraordinary** – elite, high-impact players
+- 🟢 **Consistent** – reliable performers across seasons
+- 🟦 **Good** – above average, stable contributors
+- 🟡 **Above Average** – promising and productive
+- ⚪ **Average** – moderate but dependable
+- 🟠 **Below Average** – inconsistent or limited impact
+- 🔴 **Poor / Underperformers** – players struggling to make an impact
+
+The goal of this visual is to show:
+- How players naturally group based on performance
+- Which players belong to which tier
+- How tightly or loosely clusters are formed
+- Who stands out as exceptional, and who needs to improve
+
+Explore the plot below to understand the **performance landscape** of IPL batsmen.
+""")
+
 df = load_data()
 
 #print(df.columns)
@@ -65,6 +89,7 @@ fig = px.scatter(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
