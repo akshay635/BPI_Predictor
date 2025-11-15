@@ -10,6 +10,7 @@ from sklearn.cluster import KMeans
 from src.load_data_model import load_data
 from sklearn.decomposition import PCA
 import plotly.express as px
+import statsmodel.api as sm
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -18,7 +19,7 @@ st.title("Clustering players based on the performance in each season")
 
 df = load_data()
 
-print(df.columns)
+#print(df.columns)
 
 df['runs/inning'] = round((df['total_runs']/df['matches']), 2)
 df['balls/inning'] = round((df['total_balls']/df['matches']), 2)
@@ -64,4 +65,5 @@ fig = px.scatter(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
