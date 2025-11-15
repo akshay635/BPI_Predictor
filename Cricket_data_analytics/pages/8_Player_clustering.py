@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 from src.load_data_model import load_data
 from sklearn.decomposition import PCA
 import plotly.express as px
-import statsmodel.api as sm
+import statsmodels.api as sm
 
 # No set_page_config() here
 st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
@@ -65,5 +65,6 @@ fig = px.scatter(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
