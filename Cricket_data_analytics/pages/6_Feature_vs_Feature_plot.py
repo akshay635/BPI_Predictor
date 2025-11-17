@@ -25,7 +25,8 @@ features2 = st.selectbox('Select second feature', sorted(num_features))
 fig = px.scatter(df, x=features1, y=features2, trendline="ols", 
                  title=f"{features1} vs {features2} using scatter plot")
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
+
 
 
 
