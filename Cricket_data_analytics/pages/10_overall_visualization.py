@@ -49,6 +49,7 @@ fig = px.bar(top_20_batters.head(20),
 fig.update_layout(height=600, template="simple_white")
 fig.update_traces(textposition="outside")
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
+
 
 
