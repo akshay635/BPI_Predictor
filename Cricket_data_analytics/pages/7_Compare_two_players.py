@@ -39,4 +39,5 @@ fig = go.Figure(data=[
 
 fig.update_layout(barmode='group', title="Player Comparison")
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
+
