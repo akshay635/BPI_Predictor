@@ -33,13 +33,14 @@ st.write(f"**Correlation with BPI:** `{corr:.3f}`")
 # Scatter plot
 fig = px.scatter(
     df,
-    x=selected_feature,
-    y=target,
-    hover_name=player,
+    x=df[selected_feature],
+    y=df[target],
+    hover_data='batter',
     trendline="ols",
     title=f"{selected_feature} vs BPI"
 )
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
