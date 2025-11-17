@@ -39,25 +39,11 @@ with tab1:
     st.header("Plotly scatterplot in Streamlit")
     fig = px.scatter(df, x=selected_feature, y=target, trendline="ols", 
                      title=f"{selected_feature} vs BPI using scatter plot")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 #bar plot
 with tab2:
     st.header("Seaborn histplot in Streamlit")
     fig = sns.histplot(df[selected_feature], kde=True, bins=30)
-    st.pyplot(fig.get_figure(), use_container_width=True)
-    
-with tab3:
-    st.header("Seaborn pairplot in Streamlit")
-    fig = sns.pairplot(df, x_vars=selected_feature, y_vars=target)
-    st.pyplot(fig.fig, use_container_width=True)
-    
-with tab4:
-    st.header("Seaborn regplot in Streamlit")
+    st.pyplot(fig.get_figure(), width='stretch')
 
-    # Create the plot
-    sns.regplot(x=selected_feature, y=target, data=df)
-    
-    # Display in Streamlit
-
-    st.pyplot(fig.fig, use_container_width=True)
