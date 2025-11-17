@@ -10,20 +10,20 @@ import streamlit as st
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('C:/Users/aksha/Cricket_data_analytics/data/seasonal_stats.csv')
+    df = pd.read_csv('Cricket_data_analytics/data/seasonal_stats.csv')
     return df
 
 @st.cache_resource
 def load_models():
     #decision tree regressor
-    dt_model =  joblib.load("C:/Users/aksha/Cricket_data_analytics/models/dt_model.joblib")
+    dt_model =  joblib.load("Cricket_data_analytics/models/dt_model.joblib")
     #random forest regressor
-    rf_model =  joblib.load("C:/Users/aksha/Cricket_data_analytics/models/rf_model.joblib")
+    rf_model =  joblib.load("Cricket_data_analytics/models/rf_model.joblib")
     #XGBoost regressor
-    xgb_model =  joblib.load("C:/Users/aksha/Cricket_data_analytics/models/xgb_model.joblib")
+    xgb_model =  joblib.load("Cricket_data_analytics/models/xgb_model.joblib")
     models = {'Decision Tree': dt_model, 'Random Forest': rf_model, 'XGBoost': xgb_model}
     #StandardScaler
-    scaler = joblib.load("C:/Users/aksha/Cricket_data_analytics/models/scaler.joblib")
+    scaler = joblib.load("Cricket_data_analytics/models/scaler.joblib")
     return models, scaler
 
 @st.cache_data
@@ -32,3 +32,4 @@ def train_test_split(df):
     y = df['BPI']
     
     return X, y
+
