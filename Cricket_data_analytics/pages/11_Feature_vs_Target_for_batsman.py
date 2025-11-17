@@ -35,11 +35,12 @@ fig = px.scatter(
     df,
     x=selected_feature,
     y=target,
-    hover_data=player,
+    hover_name=player,
     trendline="ols",
     title=f"{selected_feature} vs BPI"
 )
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
