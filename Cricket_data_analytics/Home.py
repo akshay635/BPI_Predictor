@@ -20,7 +20,7 @@ Welcome to the **Dynamic BPI Predictor App** — a machine learning dashboard th
 
 Important terms to understand:
 - DPPI :- Deep Player Performance Index
-- BPI :- Batting Performance Inde
+- BPI :- Batting Performance Index
 
 **Note*:- Only those matches are considered where player has been batted.**
 
@@ -28,6 +28,7 @@ Use the sidebar to navigate between sections 👇
 """)
 
 st.image("https://wallpapercave.com/wp/wp2506454.jpg", width=500)
+
 
 
 
