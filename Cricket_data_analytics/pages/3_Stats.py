@@ -73,4 +73,5 @@ styled_df = player_stats.style.apply(highlight_column, col_name='BPI', axis=0)
 if st.button('Show both season-wise and overall stats'):
     st.title(f'Both Overall and Seasonwise stats of {player_selected}')
 
-    st.dataframe(seasonal_with_overall.style.apply(highlight_overall, axis=1))
+    st.dataframe(seasonal_with_overall.style.apply(highlight_overall, axis=1), width='stretch')
+
