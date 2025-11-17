@@ -58,7 +58,7 @@ fig.add_shape(
     x0=y.min(), y0=y.min(), x1=y.max(), y1=y.max(),
     line=dict(color="red", dash="dash")
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 # Metrics
 r2 = r2_score(y, y_pred)
@@ -68,3 +68,4 @@ col1, col2, col3 = st.columns(3)
 col1.metric("R² Score", f"{r2:.3f}")
 col2.metric("MAE", f"{mae:.2f}")
 col3.metric("RMSE", f"{rmse:.2f}")
+
