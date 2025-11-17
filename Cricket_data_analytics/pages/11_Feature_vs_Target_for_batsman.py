@@ -25,6 +25,7 @@ selected_feature = st.selectbox(
     [f for f in num_features if f != target]
 )
 
+df = df[df['batter'] == player]
 # Correlation
 corr = df[selected_feature].corr(df[target])
 st.write(f"**Correlation with BPI:** `{corr:.3f}`")
@@ -34,11 +35,12 @@ fig = px.scatter(
     df,
     x=selected_feature,
     y=target,
-    hover_name=[player],
+    hover_data=player,
     trendline="ols",
     title=f"{selected_feature} vs BPI"
 )
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
