@@ -9,6 +9,8 @@ import streamlit as st
 from src.load_data_model import load_data
 import plotly.express as px
 
+st.markdown("<style>.block-container{max-width:95%;}</style>", unsafe_allow_html=True)
+
 st.header("Feature vs Target Analysis for batsman")
 
 df = load_data()
@@ -37,3 +39,4 @@ fig = px.scatter(
     title=f"{selected_feature} vs BPI"
 )
 st.plotly_chart(fig, use_container_width=True)
+
