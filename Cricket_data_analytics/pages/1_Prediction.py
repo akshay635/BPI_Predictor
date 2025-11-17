@@ -54,7 +54,7 @@ X, y = train_test_split(df)
 selected_features, importance_df = select_features(X, y, selected_model_name, top_n=11)
 
 st.write(f"Top 10 features selected for {selected_model_name}:")
-st.dataframe(importance_df.head(10), use_container_width=True)
+st.dataframe(importance_df.head(10), width='stretch')
 
 # ---------------- Prediction ----------------
 st.markdown("---")
@@ -80,7 +80,7 @@ if 'BPI' in player_row.columns:
         "rmse" : root_mean_squared_error([prediction], [player_row['BPI'].values[0]])
     })
 
-    st.dataframe(comparison_df.style.highlight_max(subset=["Predicted BPI"], color='lightgreen'), use_container_width=True)
+    st.dataframe(comparison_df.style.highlight_max(subset=["Predicted BPI"], color='lightgreen'), width='stretch')
 
 
 # ---------------- Visualization ----------------
@@ -91,4 +91,5 @@ fig = px.bar(
     title=f"Feature Importance / F-score ({selected_model_name})",
     text_auto=True
 )
-st.plotly_chart(fig, use_container_width=True)
+
+st.plotly_chart(fig, width='stretch')
