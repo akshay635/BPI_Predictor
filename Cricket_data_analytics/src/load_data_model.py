@@ -11,20 +11,20 @@ import xgboost as xgb
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('data/seasonal_stats.csv')
+    df = pd.read_csv('BPI_Predictor/Cricket_data_analytics/data/seasonal_stats.csv')
     return df
 
 @st.cache_resource
 def load_models():
     #decision tree regressor
-    dt_model =  joblib.load("models/dt_model.joblib")
+    dt_model =  joblib.load("BPI_Predictor/Cricket_data_analytics/models/dt_model.joblib")
     #random forest regressor
-    rf_model =  joblib.load("models/rf_model.joblib")
+    rf_model =  joblib.load("BPI_Predictor/Cricket_data_analytics/models/rf_model.joblib")
     #XGBoost regressor
     models = {'Decision Tree': dt_model, 'Random Forest': rf_model, 'XGBoost': xgb.XGBRegressor()}
-    models['XGBoost'].load_model("models/xgb_model.json")
+    models['XGBoost'].load_model("BPI_Predictor/Cricket_data_analytics/models/xgb_model.json")
     #StandardScaler
-    scaler = joblib.load("models/scaler.joblib")
+    scaler = joblib.load("BPI_Predictor/Cricket_data_analytics/models/scaler.joblib")
     return models, scaler
 
 @st.cache_data
@@ -33,6 +33,7 @@ def train_test_split(df):
     y = df['BPI']
     
     return X, y
+
 
 
 
