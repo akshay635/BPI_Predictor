@@ -22,7 +22,7 @@ def load_models():
     rf_model =  joblib.load("Cricket_data_analytics/models/rf_model.joblib")
     #XGBoost regressor
     xgb_model = joblib.load("Cricket_data_analytics/models/xgb_model.joblib")
-    models = {'Decision Tree': dt_model, 'Random Forest': rf_model, 'XGBoost': xgb_model)}
+    models = {'Decision Tree': dt_model, 'Random Forest': rf_model, 'XGBoost': xgb_model}
     #StandardScaler
     scaler = joblib.load("Cricket_data_analytics/models/scaler.joblib")
     return models, scaler
@@ -33,6 +33,7 @@ def train_test_split(df):
     y = df['BPI']
     
     return X, y
+
 
 
 
