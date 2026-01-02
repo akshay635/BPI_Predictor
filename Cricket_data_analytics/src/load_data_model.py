@@ -7,7 +7,6 @@ Created on Wed Nov 12 16:51:42 2025
 import pandas as pd
 import joblib
 import streamlit as st
-import xgboost as xgb
 
 @st.cache_data
 def load_data():
@@ -33,6 +32,7 @@ def train_test_split(df):
     y = df['BPI']
     
     return X, y
+
 
 
 
